@@ -1,0 +1,27 @@
+{
+  "name": "Snake",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "jquery": "^2.2.0",
+    "socket.io": "^1.4.5"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "html-webpack-plugin": "^2.8.1",
+    "install": "^0.4.2",
+    "node-sass": "^3.4.2",
+    "npm": "^3.7.1",
+    "require-dir": "^0.3.0",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
+    "webpack-stream": "^3.1.0"
+  }
+}
