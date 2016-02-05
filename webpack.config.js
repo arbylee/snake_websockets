@@ -1,9 +1,10 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: __dirname + "/public/js/client.js",
+  entry: path.resolve(__dirname, "public/js/app.js"),
   output: {
-    path: __dirname + '/dist',
+    path: path.resolve(__dirname, 'dist'),
     filename: 'index_bundle.js'
   },
   plugins: [
@@ -17,6 +18,23 @@ module.exports = {
       {
         test: /\.scss$/,
         loaders: ["style", "css", "sass"]
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+          'file?hash=sha512&digest=hex&name=[hash].[ext]',
+          'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
+      }
+    ],
+    postLoaders: [
+      {
+        include: path.resolve(__dirname, 'node_modules/pixi.js'),
+        loader: 'transform?brfs'
       }
     ]
   }

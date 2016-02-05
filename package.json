@@ -11,17 +11,23 @@
   "dependencies": {
     "express": "^4.13.4",
     "jquery": "^2.2.0",
+    "pixi.js": "^3.0.9",
     "socket.io": "^1.4.5"
   },
   "devDependencies": {
+    "brfs": "^1.4.3",
     "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.8.1",
+    "image-webpack-loader": "^1.6.3",
     "install": "^0.4.2",
+    "json-loader": "^0.5.4",
     "node-sass": "^3.4.2",
     "npm": "^3.7.1",
     "require-dir": "^0.3.0",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
+    "transform-loader": "^0.2.3",
     "webpack-stream": "^3.1.0"
   }
 }
