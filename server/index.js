@@ -8,31 +8,23 @@ var path = require('path');
 app.use(express.static(__dirname + '/../dist'));
 
 app.get('/', function(req, res){
-    res.sendFile(path.resolve(__dirname + '/../dist/index.html'));
+  res.sendFile(path.resolve(__dirname + '/../dist/index.html'));
 });
 
-chatIo = io.of('/chat');
+gameIo = io.of('/gameInput');
 
-chatIo.on('connection', function(socket){
+gameIo.on('connection', function(socket){
   console.log('a user connected');
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-});
 
-chatIo.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
-  });
-});
-
-chatIo.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    chatIo.emit('chat message', msg);
+  socket.on('controls', function(msg){
+    console.log(msg);
   });
 });
 
 server.listen(3000, function(){
-    console.log('listening on *:3000');
+  console.log('listening on *:3000');
 });
 
