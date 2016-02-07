@@ -38,3 +38,7 @@ function animate(circle) {
   // this is the main render call that makes pixi draw your container and its children.
   renderer.render(stage);
 }
+
+exports.update = function (data){
+  console.log('test');
+}

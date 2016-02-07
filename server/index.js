@@ -21,6 +21,7 @@ gameIo.on('connection', function(socket){
 
   socket.on('controls', function(msg){
     console.log(msg);
+    socket.emit('viewUpdate', {'data': 'yeah'});
   });
 });
 

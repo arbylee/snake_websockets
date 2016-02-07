@@ -2,6 +2,7 @@ var allTheCss = require("../styles/app.scss");
 var $ = require('jquery');
 var io = require('socket.io-client');
 var socket = io('/gameInput');
+var view = require('./view.js');
 
 var CONTROL_KEYS = {
   87: 'up', //w
@@ -16,3 +17,6 @@ $('body').keydown(function(event) {
   };
 });
 
+socket.on('viewUpdate', function(msg) {
+  view.update(msg);
+});
