@@ -15,37 +15,40 @@ var squareTexture = PIXI.Texture.fromImage(square__image);
 
 var snakes = {};
 
-function newSnake() {
-  var square = new PIXI.Sprite(squareTexture);
-  square.scale.x = 0.5;
-  square.scale.y = 0.5;
-  stage.addChild(square);
-
-  return [ square ]
-}
-
 function newSnakeFrom(snakeData) {
-  var square = new PIXI.Sprite(squareTexture);
-  square.scale.x = 0.5;
-  square.scale.y = 0.5;
-  square.x = snakeData.x;
-  square.y = snakeData.y;
-  stage.addChild(square);
+  var result = [];
+  var body = snakeData.body
+  for(var i=0; i<body.length; i++){
+    console.log('made a square')
+    var square = new PIXI.Sprite(squareTexture);
+    square.scale.x = 0.25;
+    square.scale.y = 0.25;
+    square.x = body[i].x * 8;
+    square.y = body[i].y * 8;
+    result.push(square);
+    stage.addChild(square);
+  }
 
-  return [ square ]
+  return result;
 }
 
 function update(data){
   for(var i=0; i<data.snakes.length; i++) {
     var id = data.snakes[i].id;
-    snakes[id][0].x = data.snakes[i].x * 8;
-    snakes[id][0].y = data.snakes[i].y * 8;
+    var body = data.snakes[i].body;
+    var currentSnake = snakes[id];
+    for(var j=0; j<body.length; body++){
+      currentSnake[j].x = body[j].x * 8;
+      currentSnake[j].y = body[j].y * 8;
+    }
   }
   renderer.render(stage);
 }
 
-function addPlayer(id) {
-  snakes[id] = newSnake();
+function addPlayer(id, snake) {
+  if(snakes[id] === undefined){
+    snakes[id] = newSnakeFrom(snake);
+  }
 }
 
 function removePlayer(id) {

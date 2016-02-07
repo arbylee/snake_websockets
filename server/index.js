@@ -17,8 +17,9 @@ var snakeGame;
 
 gameIo.on('connection', function(socket){
   console.log('a user connected');
-  snakeGame.addPlayer(socket.id);
-  gameIo.emit('playerAdded', socket.id);
+  newSnake = snakeGame.addPlayer(socket.id);
+  gameIo.emit('playerAdded', {'id': socket.id, 'snake': newSnake.getState()});
+
   socket.emit('initialGameState', snakeGame.getState());
 
   socket.on('disconnect', function(){

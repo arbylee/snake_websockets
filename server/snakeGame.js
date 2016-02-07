@@ -14,6 +14,7 @@ function build() {
     var newSnake = Snake.build(id);
     newSnake.setLocation(20,20);
     snakesMap[id] = newSnake;
+    return newSnake;
   }
 
   function removePlayer(id) {

@@ -21,8 +21,8 @@ socket.on('viewUpdate', function(msg) {
   view.update(msg);
 });
 
-socket.on('playerAdded', function(id){
-  view.addPlayer(id);
+socket.on('playerAdded', function(data){
+  view.addPlayer(data.id, data.snake);
 })
 
 socket.on('playerRemoved', function(id){
