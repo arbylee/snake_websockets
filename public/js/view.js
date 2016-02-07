@@ -19,6 +19,7 @@ var snakes = {};
 var food = [];
 
 function newSnakeFrom(snakeData) {
+  console.log('SNAKE FROM')
   var result = [];
   var body = snakeData.body
   for(var i=0; i<body.length; i++){
@@ -57,32 +58,48 @@ function update(data){
   }
 
   for(var i=0; i<data.food.length; i++) {
-    if(food[i] === undefined){
-      food.push(newFood(data.food[i].x, data.food[i].y));
+    if(food[i] !== undefined){
+      food[i].x = data.food[i].x * 8;
+      food[i].y = data.food[i].y * 8;
     }
-    food[i].x = data.food[i].x * 8;
-    food[i].y = data.food[i].y * 8;
   }
 
   renderer.render(stage);
 }
 
 function addPlayer(id, snake) {
+  console.log('addplayer')
+  console.log(id)
+  console.log(snakes[id])
   if(snakes[id] === undefined){
+    console.log('new Snake making time')
     snakes[id] = newSnakeFrom(snake);
+    console.log('after')
+    console.log(snakes[id]);
   }
 }
 
 function removePlayer(id) {
-  stage.removeChild(snakes[id][0]);
+  var bodyArray = snakes[id];
+  if(bodyArray) {
+    for(var i=0; i<bodyArray.length; i++) {
+      stage.removeChild(bodyArray[i]);
+    }
+    delete snakes[id];
+  }
+}
+
+function addFood(addedFood) {
+  food.push(newFood(addedFood.x, addedFood.y));
 }
 
 function setInitialGameState(data) {
   for(var i=0; i<data.snakes.length; i++){
     var id = data.snakes[i].id;
-    if(snakes[id] === undefined){
-      snakes[id] = newSnakeFrom(data.snakes[i]);
-    }
+    addPlayer(id, data.snakes[i])
+  }
+  for(var j=0; j<data.food.length; j++){
+    addFood(data.food[j].x, data.food[j].y);
   }
 }
 
@@ -90,5 +107,6 @@ module.exports = {
   update: update,
   addPlayer: addPlayer,
   removePlayer: removePlayer,
+  addFood: addFood,
   setInitialGameState: setInitialGameState
 }

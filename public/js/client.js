@@ -32,3 +32,7 @@ socket.on('playerRemoved', function(id){
 socket.on('initialGameState', function(id){
   view.setInitialGameState(id);
 })
+
+socket.on('foodAdded', function(data){
+  view.addFood(data);
+})
