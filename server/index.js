@@ -23,15 +23,16 @@ gameIo.on('connection', function(socket){
   });
 
   socket.on('controls', function(msg){
-    console.log(msg);
-    snakeGame.printSomething();
-    socket.emit('viewUpdate', {'data': 'yeah'});
+    snakeGame.handlePlayerInput(socket.id, msg);
   });
 });
 
 server.listen(3000, function(){
   console.log('listening on *:3000');
   snakeGame = SnakeGame.build();
-  setInterval(snakeGame.printSomething, 2000);
+  setInterval(function(){
+    snakeGame.update();
+    gameIo.emit('viewUpdate', snakeGame.getState());
+  }, 1000)
 });
 
