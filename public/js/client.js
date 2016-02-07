@@ -20,3 +20,15 @@ $('body').keydown(function(event) {
 socket.on('viewUpdate', function(msg) {
   view.update(msg);
 });
+
+socket.on('playerAdded', function(id){
+  view.addPlayer(id);
+})
+
+socket.on('playerRemoved', function(id){
+  view.removePlayer(id);
+})
+
+socket.on('initialGameState', function(id){
+  view.setInitialGameState(id);
+})

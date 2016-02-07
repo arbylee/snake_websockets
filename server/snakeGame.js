@@ -12,8 +12,12 @@ function build() {
 
   function addPlayer(id) {
     var newSnake = Snake.build(id);
-    newSnake.setLocation(40,30);
+    newSnake.setLocation(20,20);
     snakesMap[id] = newSnake;
+  }
+
+  function removePlayer(id) {
+    delete snakesMap[id];
   }
 
   function getState(){
@@ -43,6 +47,7 @@ function build() {
   return {
     handlePlayerInput: handlePlayerInput,
     addPlayer: addPlayer,
+    removePlayer: removePlayer,
     getState: getState,
     update: update
   };

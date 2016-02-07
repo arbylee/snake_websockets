@@ -10,7 +10,6 @@ function build(id) {
 
 
   function changeDirection(direction){
-    console.log('changing direction ' + direction)
     if(direction == 'up'){
       head.velocityX = 0;
       head.velocityY = -1;
@@ -27,11 +26,7 @@ function build(id) {
   }
 
   function move() {
-    console.log('bout to move')
-    console.log(body);
-    console.log('move')
     for(var i=0; i< body.length; i++){
-      console.log(body[i])
       body[i].x += body[i].velocityX;
       body[i].y += body[i].velocityY;
     }
