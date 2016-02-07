@@ -1,10 +1,13 @@
 var Snake = require('./snake.js');
-var World = require('./world.js')
+var World = require('./world.js');
 
 function build() {
   var players = [];
   var world = World.build();
   var snakesMap = {};
+  var snakes = [];
+  var foodCount = 0;
+  var food = [];
 
   function handlePlayerInput(id, msg) {
     snakesMap[id].changeDirection(msg);
@@ -14,15 +17,25 @@ function build() {
     var newSnake = Snake.build(id);
     newSnake.setLocation(20,20);
     snakesMap[id] = newSnake;
+    snakes.push(newSnake);
     return newSnake;
   }
 
   function removePlayer(id) {
+    for (var i = 0; i < snakes.length; i++) {
+      if (snakes[i].id === id) {
+        snakes.splice(snakes.indexOf(snakes[i]), 1)
+        break;
+      }
+    }
     delete snakesMap[id];
   }
 
   function getState(){
-    return {snakes: getSnakes()};
+    return {
+      snakes: getSnakes(),
+      food: food
+    };
   }
 
   function getSnakes() {
@@ -37,6 +50,11 @@ function build() {
 
   function update(){
     for (var id in snakesMap) {
+      if(food.length < 1){
+        var emptyCoords = world.getEmptySpace(snakes);
+        var newFood = {x: emptyCoords.x, y: emptyCoords.y}
+        food.push(newFood);
+      }
       if (snakesMap.hasOwnProperty(id)) {
         snakesMap[id].move();
       }

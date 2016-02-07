@@ -1,6 +1,7 @@
 var PIXI = require('pixi.js');
 var renderer = new PIXI.WebGLRenderer(800, 600);
 var square__image = require('../images/square.png');
+var squareBlue__image = require('../images/squareBlue.png');
 
 
 // The renderer will create a canvas element for you that you can then insert into the DOM.
@@ -12,8 +13,10 @@ var stage = new PIXI.Container();
 // load the texture we need
 
 var squareTexture = PIXI.Texture.fromImage(square__image);
+var squareBlueTexture = PIXI.Texture.fromImage(squareBlue__image);
 
 var snakes = {};
+var food = [];
 
 function newSnakeFrom(snakeData) {
   var result = [];
@@ -31,6 +34,17 @@ function newSnakeFrom(snakeData) {
   return result;
 }
 
+function newFood(x, y) {
+  var square = new PIXI.Sprite(squareBlueTexture);
+  square.scale.x = 0.25;
+  square.scale.y = 0.25;
+  square.x = x * 8;
+  square.y = y * 8;
+  stage.addChild(square);
+
+  return square;
+}
+
 function update(data){
   for(var i=0; i<data.snakes.length; i++) {
     var id = data.snakes[i].id;
@@ -41,6 +55,15 @@ function update(data){
       currentSnake[j].y = body[j].y * 8;
     }
   }
+
+  for(var i=0; i<data.food.length; i++) {
+    if(food[i] === undefined){
+      food.push(newFood(data.food[i].x, data.food[i].y));
+    }
+    food[i].x = data.food[i].x * 8;
+    food[i].y = data.food[i].y * 8;
+  }
+
   renderer.render(stage);
 }
 
