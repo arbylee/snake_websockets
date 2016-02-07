@@ -19,7 +19,6 @@ function newSnakeFrom(snakeData) {
   var result = [];
   var body = snakeData.body
   for(var i=0; i<body.length; i++){
-    console.log('made a square')
     var square = new PIXI.Sprite(squareTexture);
     square.scale.x = 0.25;
     square.scale.y = 0.25;
@@ -37,7 +36,7 @@ function update(data){
     var id = data.snakes[i].id;
     var body = data.snakes[i].body;
     var currentSnake = snakes[id];
-    for(var j=0; j<body.length; body++){
+    for(var j=0; j<body.length; j++){
       currentSnake[j].x = body[j].x * 8;
       currentSnake[j].y = body[j].y * 8;
     }

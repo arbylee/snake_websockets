@@ -2,9 +2,9 @@ function build(id) {
   var x, y, chosenDirection,
       id = id;
   var body = [
-    {x: null, y: null, velocityX: 0, velocityY: 0},
-    {x: null, y: null, velocityX: 0, velocityY: 0},
-    {x: null, y: null, velocityX: 0, velocityY: 0}
+    {x: null, y: null, velocityX: 1, velocityY: 0},
+    {x: null, y: null, velocityX: 1, velocityY: 0},
+    {x: null, y: null, velocityX: 1, velocityY: 0}
   ];
   var head = body[0];
 
@@ -26,10 +26,15 @@ function build(id) {
   }
 
   function move() {
-    for(var i=0; i< body.length; i++){
+    for(var i=0; i<body.length; i++){
       body[i].x += body[i].velocityX;
       body[i].y += body[i].velocityY;
     }
+
+    for(var j=body.length-1; j>0; j--){
+      body[j].velocityX = body[j-1].velocityX;
+      body[j].velocityY = body[j-1].velocityY;
+    };
   }
 
   function setLocation(newX, newY) {
@@ -42,9 +47,7 @@ function build(id) {
   function getState() {
     return {
       id: id,
-      body: body,
-      x: head.x,
-      y: head.y
+      body: body
     }
   }
 
