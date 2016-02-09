@@ -19,15 +19,10 @@ var snakes = {};
 var food = [];
 
 function newSnakeFrom(snakeData) {
-  console.log('SNAKE FROM')
   var result = [];
   var body = snakeData.body
   for(var i=0; i<body.length; i++){
-    var square = new PIXI.Sprite(squareTexture);
-    square.scale.x = 0.25;
-    square.scale.y = 0.25;
-    square.x = body[i].x * 8;
-    square.y = body[i].y * 8;
+    var square = newSquare(body[i].x, body[i].y)
     result.push(square);
     stage.addChild(square);
   }
@@ -35,12 +30,30 @@ function newSnakeFrom(snakeData) {
   return result;
 }
 
-function newFood(x, y) {
+function newSquare(x, y) {
+  var square = new PIXI.Sprite(squareTexture);
+  square.scale.x = 0.25;
+  square.scale.y = 0.25;
+  square.x = x * 8;
+  square.y = y * 8;
+  return square;
+}
+
+function growSnake(snake) {
+  var lastBodyPart = snake.body[snake.body.length-1];
+  var square = newSquare(lastBodyPart.x, lastBodyPart.y);
+  snakes[snake.id].push(square);
+
+  stage.addChild(square);
+}
+
+function newFood(id, x, y) {
   var square = new PIXI.Sprite(squareBlueTexture);
   square.scale.x = 0.25;
   square.scale.y = 0.25;
   square.x = x * 8;
   square.y = y * 8;
+  square.id = id;
   stage.addChild(square);
 
   return square;
@@ -68,14 +81,8 @@ function update(data){
 }
 
 function addPlayer(id, snake) {
-  console.log('addplayer')
-  console.log(id)
-  console.log(snakes[id])
   if(snakes[id] === undefined){
-    console.log('new Snake making time')
     snakes[id] = newSnakeFrom(snake);
-    console.log('after')
-    console.log(snakes[id]);
   }
 }
 
@@ -90,7 +97,17 @@ function removePlayer(id) {
 }
 
 function addFood(addedFood) {
-  food.push(newFood(addedFood.x, addedFood.y));
+  food.push(newFood(addedFood.id, addedFood.x, addedFood.y));
+}
+
+function removeFood(id) {
+  for(var i=0; i<food.length; i++) {
+    if(food[i].id == id){
+      stage.removeChild(food[i]);
+      food.splice(i, 1);
+      break;
+    }
+  }
 }
 
 function setInitialGameState(data) {
@@ -108,5 +125,7 @@ module.exports = {
   addPlayer: addPlayer,
   removePlayer: removePlayer,
   addFood: addFood,
+  removeFood: removeFood,
+  growSnake: growSnake,
   setInitialGameState: setInitialGameState
 }

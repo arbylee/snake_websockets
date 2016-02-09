@@ -36,3 +36,11 @@ socket.on('initialGameState', function(id){
 socket.on('foodAdded', function(data){
   view.addFood(data);
 })
+
+socket.on('foodEaten', function(id){
+  view.removeFood(id);
+})
+
+socket.on('snakeGrown', function(snake){
+  view.growSnake(snake);
+})

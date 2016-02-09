@@ -44,6 +44,10 @@ function build(id) {
     }
   }
 
+  function getId() {
+    return id;
+  }
+
   function getState() {
     return {
       id: id,
@@ -51,11 +55,33 @@ function build(id) {
     }
   }
 
+  function getBody() {
+    return body;
+  }
+
+  function getHead() {
+    return body[0];
+  }
+
+  function grow() {
+    var lastBodyPart = body[body.length-1];
+    body.push({
+      x: lastBodyPart.x - lastBodyPart.velocityX,
+      y: lastBodyPart.y - lastBodyPart.velocityY,
+      velocityX: lastBodyPart.velocityX,
+      velocityY: lastBodyPart.velocityY
+    });
+  };
+
   return {
     setLocation: setLocation,
+    getId: getId,
+    getHead: getHead,
+    getBody: getBody,
     getState: getState,
     changeDirection: changeDirection,
-    move: move
+    move: move,
+    grow: grow
   };
 }
 

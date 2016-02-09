@@ -9,6 +9,7 @@ function build(socket) {
   var foodCount = 0;
   var food = [];
   var socket = socket;
+  var foodCounter = 0;
 
   function handlePlayerInput(id, msg) {
     if(snakesMap[id]) {
@@ -18,7 +19,6 @@ function build(socket) {
 
   function addPlayer(id) {
     var newSnake;
-    console.log(id)
     if(snakes[id] === undefined) {
       newSnake = Snake.build(id);
       newSnake.setLocation(20,20);
@@ -63,7 +63,8 @@ function build(socket) {
     for (var id in snakesMap) {
       if(food.length < 1){
         var emptyCoords = world.getEmptySpace(snakes);
-        var newFood = {x: emptyCoords.x, y: emptyCoords.y}
+        var newFood = {x: emptyCoords.x, y: emptyCoords.y, id: foodCounter};
+        foodCounter++;
         food.push(newFood);
         socket.emit('foodAdded', newFood);
       }
@@ -73,9 +74,23 @@ function build(socket) {
     }
     //checkSnakeCollision(snakes);
     checkOutOfBounds(snakes, world);
-    //checkFoodEaten(snakes, food);
+    checkFoodEaten(snakes, food);
   }
 
+  function checkFoodEaten(snakes, food) {
+    for(var i=0; i<snakes.length; i++) {
+      var snake = snakes[i];
+      for(var j=0; j<food.length; j++) {
+        if(food[j].x == snake.getHead().x && food[j].y == snake.getHead().y){
+          socket.emit('foodEaten', food[j].id);
+          food.splice(j, 1);
+          snake.grow();
+          socket.emit('snakeGrown', snake.getState())
+          break;
+        };
+      }
+    }
+  };
   function checkSnakeCollision(){
   }
   function checkOutOfBounds(snakes, world){
