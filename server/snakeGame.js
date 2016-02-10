@@ -33,7 +33,7 @@ function build(socket) {
 
   function removePlayer(id) {
     for (var i = 0; i < snakes.length; i++) {
-      if (snakes[i].id === id) {
+      if (snakes[i].getId() === id) {
         snakes.splice(snakes.indexOf(snakes[i]), 1)
         break;
       }
@@ -73,6 +73,7 @@ function build(socket) {
       }
     }
     checkSnakeSelfCollision(snakes);
+    checkSnakesCollision(snakes);
     checkOutOfBounds(snakes, world);
     checkFoodEaten(snakes, food);
   }
@@ -91,6 +92,41 @@ function build(socket) {
       }
     }
   };
+
+  function checkSnakesCollision(snakes){
+    var deadSnakeIds = [];
+    for(var i=0; i<snakes.length; i++) {
+      var head = snakes[i].getHead();
+      var isDead = false;
+
+      for(var j=0; j<snakes.length; j++) {
+        var otherSnake = snakes[j];
+        var otherBody = otherSnake.getBody();
+
+        if(isDead) {
+          break;
+        }
+
+        if(j===i){
+          continue;
+        }
+
+        for(var k=0; k<otherBody.length; k++) {
+          console.log(otherBody);
+          if(otherBody[k].x === head.x && otherBody[k].y === head.y) {
+            console.log('death!');
+            deadSnakeIds.push(snakes[i].getId());
+            break;
+          }
+        }
+      }
+    }
+
+    for(var v=0; v<deadSnakeIds.length; v++){
+      removePlayer(deadSnakeIds[v]);
+    }
+  }
+
   function checkSnakeSelfCollision(snakes){
     for(var i=0; i<snakes.length; i++) {
       var body = snakes[i].getBody();
