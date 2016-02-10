@@ -72,7 +72,7 @@ function build(socket) {
         snakesMap[id].move();
       }
     }
-    //checkSnakeCollision(snakes);
+    checkSnakeSelfCollision(snakes);
     checkOutOfBounds(snakes, world);
     checkFoodEaten(snakes, food);
   }
@@ -91,7 +91,21 @@ function build(socket) {
       }
     }
   };
-  function checkSnakeCollision(){
+  function checkSnakeSelfCollision(snakes){
+    for(var i=0; i<snakes.length; i++) {
+      var body = snakes[i].getBody();
+      var head = body[0];
+      for(var j=0; j<body.length; j++) {
+        if(j==0){
+          continue;
+        }
+
+        if(body[j].x === head.x && body[j].y === head.y) {
+          removePlayer(snakes[i].getId());
+          break;
+        }
+      }
+    }
   }
   function checkOutOfBounds(snakes, world){
     for(var i=0; i<snakes.length; i++){
@@ -100,7 +114,7 @@ function build(socket) {
           head.x >= world.width ||
           head.y < 0 ||
           head.y >= world.height){
-        removePlayer(snakes[i].getState().id);
+        removePlayer(snakes[i].getId());
       }
     }
   }
