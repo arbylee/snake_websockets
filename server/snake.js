@@ -7,19 +7,32 @@ function build(id) {
     {x: null, y: null, velocityX: 1, velocityY: 0}
   ];
   var head = body[0];
+  var UP = 'up', DOWN = 'down', LEFT = 'left', RIGHT = 'right';
 
+  function getCurrentDirection() {
+    if(head.velocityX === 0 && head.velocityY === -1) {
+      return UP;
+    } else if (head.velocityX === 1 && head.velocityY === 0){
+      return RIGHT;
+    } else if (head.velocityX === 0 && head.velocityY === 1){
+      return DOWN;
+    } else if (head.velocityX === -1 && head.velocityY === 0){
+      return LEFT;
+    }
+  }
 
   function changeDirection(direction){
-    if(direction == 'up'){
+    var currentDirection = getCurrentDirection();
+    if(direction === UP && currentDirection != DOWN){
       head.velocityX = 0;
       head.velocityY = -1;
-    }else if(direction == 'right'){
+    }else if(direction === RIGHT && currentDirection != LEFT){
       head.velocityX = 1;
       head.velocityY = 0;
-    }else if(direction == 'down'){
+    }else if(direction === DOWN && currentDirection != UP){
       head.velocityX = 0;
       head.velocityY = 1;
-    }else if(direction == 'left'){
+    }else if(direction === LEFT && currentDirection != RIGHT){
       head.velocityX = -1;
       head.velocityY = 0;
     }
