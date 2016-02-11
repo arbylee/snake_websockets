@@ -45,6 +45,7 @@ function build(socket) {
   function getState(){
     return {
       snakes: getSnakes(),
+      world: world,
       food: food
     };
   }

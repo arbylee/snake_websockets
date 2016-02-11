@@ -1,20 +1,11 @@
 var PIXI = require('pixi.js');
-var renderer = new PIXI.WebGLRenderer(800, 600);
-var square__image = require('../images/square.png');
-var squareBlue__image = require('../images/squareBlue.png');
-
-
-// The renderer will create a canvas element for you that you can then insert into the DOM.
-document.body.appendChild(renderer.view);
-
-// You need to create a root container that will hold the scene you want to draw.
-var stage = new PIXI.Container();
-
-// load the texture we need
-
-var squareTexture = PIXI.Texture.fromImage(square__image);
-var squareBlueTexture = PIXI.Texture.fromImage(squareBlue__image);
-
+var SCALE = 8;
+var renderer,
+    square__image,
+    squareBlue__image,
+    stage,
+    squareTexture,
+    squareBlueTexture;
 var snakes = {};
 var food = [];
 
@@ -34,8 +25,8 @@ function newSquare(x, y) {
   var square = new PIXI.Sprite(squareTexture);
   square.scale.x = 0.25;
   square.scale.y = 0.25;
-  square.x = x * 8;
-  square.y = y * 8;
+  square.x = x * SCALE;
+  square.y = y * SCALE;
   return square;
 }
 
@@ -51,8 +42,8 @@ function newFood(id, x, y) {
   var square = new PIXI.Sprite(squareBlueTexture);
   square.scale.x = 0.25;
   square.scale.y = 0.25;
-  square.x = x * 8;
-  square.y = y * 8;
+  square.x = x * SCALE;
+  square.y = y * SCALE;
   square.id = id;
   stage.addChild(square);
 
@@ -65,15 +56,15 @@ function update(data){
     var body = data.snakes[i].body;
     var currentSnake = snakes[id];
     for(var j=0; j<body.length; j++){
-      currentSnake[j].x = body[j].x * 8;
-      currentSnake[j].y = body[j].y * 8;
+      currentSnake[j].x = body[j].x * SCALE;
+      currentSnake[j].y = body[j].y * SCALE;
     }
   }
 
   for(var i=0; i<data.food.length; i++) {
     if(food[i] !== undefined){
-      food[i].x = data.food[i].x * 8;
-      food[i].y = data.food[i].y * 8;
+      food[i].x = data.food[i].x * SCALE;
+      food[i].y = data.food[i].y * SCALE;
     }
   }
 
@@ -111,6 +102,22 @@ function removeFood(id) {
 }
 
 function setInitialGameState(data) {
+  renderer = new PIXI.WebGLRenderer(data.world.width * SCALE, data.world.height * SCALE);
+  square__image = require('../images/square.png');
+  squareBlue__image = require('../images/squareBlue.png');
+
+
+  // The renderer will create a canvas element for you that you can then insert into the DOM.
+  document.body.appendChild(renderer.view);
+
+  // You need to create a root container that will hold the scene you want to draw.
+  stage = new PIXI.Container();
+
+  // load the texture we need
+
+  squareTexture = PIXI.Texture.fromImage(square__image);
+  squareBlueTexture = PIXI.Texture.fromImage(squareBlue__image);
+
   for(var i=0; i<data.snakes.length; i++){
     var id = data.snakes[i].id;
     addPlayer(id, data.snakes[i])

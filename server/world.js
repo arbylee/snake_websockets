@@ -2,6 +2,13 @@ function build() {
   var WIDTH = 80;
   var HEIGHT = 60;
 
+  function getState() {
+    return {
+      width: width,
+      height: height
+    }
+  }
+
   function getEmptySpace(snakes) {
     var randomX = Math.floor(Math.random() * (WIDTH-1));
     var randomY = Math.floor(Math.random() * (HEIGHT-1));

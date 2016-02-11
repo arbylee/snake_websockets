@@ -17,9 +17,9 @@ var snakeGame;
 
 gameIo.on('connection', function(socket){
   console.log('a user connected');
-  snakeGame.addPlayer(socket.id);
-
   socket.emit('initialGameState', snakeGame.getState());
+
+  snakeGame.addPlayer(socket.id);
 
   socket.on('disconnect', function(){
     snakeGame.removePlayer(socket.id);
@@ -37,6 +37,6 @@ server.listen(3000, function(){
   setInterval(function(){
     snakeGame.update();
     gameIo.emit('viewUpdate', snakeGame.getState());
-  }, 100)
+  }, 50)
 });
 
