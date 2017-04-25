@@ -1,0 +1,4 @@
+Game should wait until someone starts it
+Set/Randomize player start positions
+Add general lobby that users start in with ability to join a game lobby
+Prevent users from joining a game that is already started
